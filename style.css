@@ -42,3 +42,6 @@ align-items: center;
 .hungry{
     cursor:url(./cursor-worm.png),default;
 }
+.gone{
+    display: none;
+}
