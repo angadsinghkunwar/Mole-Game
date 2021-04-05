@@ -15,8 +15,8 @@ height: 100vh;
 .background{
 background-image: url(./background.png);
 background-repeat: no-repeat;
-width: 1920px;
-height: 1080px;
+width: 100vh;
+height: 100vh;
 display: flex;
 flex-wrap: wrap;
 justify-content: center;
