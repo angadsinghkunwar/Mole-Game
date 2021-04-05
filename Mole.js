@@ -1,3 +1,4 @@
+let score  = 0; 
 function getSadInterval() {
     return Date.now() + 1000;
 }
@@ -7,6 +8,10 @@ function getGoneInterval(){
 }
 function getHungryInterval () {
     return Date.now() + Math.floor(Math.random()* 3000) +2000;
+}
+
+function getKingStatus () {
+    return Math.random () > .9;
 }
 const moles =  [
     { 
@@ -82,13 +87,15 @@ function getNextStatus (mole){
         case "leaving":
             mole.next = getGoneInterval();
             mole.status = 'gone';
+            mole.king = getKingStatus();
             mole.node.children[0].classList.add("gone");
             break;
         case "gone":
             mole.status = 'hungry';
             mole.next = getHungryInterval();
             mole.node.children[0].classList.add("hungry");
-            mole.node.children[0].classList.add("gone");
+            mole.node.children[0].classList.remove("gone");
+
             mole.node.children[0].src = './mole-hungry.png';
             break;
         case "hungry":
@@ -98,6 +105,28 @@ function getNextStatus (mole){
             mole.node.children[0].src  = './mole-sad.png';
             break;
     }
+}
+
+function feed (event) {
+    if (event.target.tagName !== "IMG" ||
+    !event.target.classList.contains("hungry")){
+        return;
+    }
+    //console.log(event.target);
+    const mole = moles[parseInt(event.target.dataset.index)];
+    mole.status = "fed";
+    mole.next = getSadInterval();
+    mole.node.children[0].src ='./mole-fed.png';
+    mole.node.children[0].classList.remove('hungry');
+
+    score ++;
+    if (score >= 10){
+        win();
+    }
+}
+function win () {
+    document.querySelector('.background').classList.add("hide");
+    document.querySelector('.win').classList.remove("hide");
 }
 
 let runAgainAt = Date.now() +100;
@@ -115,5 +144,5 @@ function nextFrame () {
     }
     requestAnimationFrame(nextFrame);
 }
-
+document.querySelector(".background").addEventListener("click",feed);
 nextFrame();    

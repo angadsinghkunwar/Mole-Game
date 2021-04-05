@@ -45,3 +45,6 @@ align-items: center;
 .gone{
     display: none;
 }
+.hide{
+    display: none;
+}
